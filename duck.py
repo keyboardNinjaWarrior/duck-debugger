@@ -1,11 +1,14 @@
 from datetime import datetime
 import csv
+from os import path
 
-with open("log.csv", 'a') as log:
-    csvlog = csv.writer(log)
-    csvlog.writerow(["time", "text"])
+filePath = "log.csv"
+
+with open(filePath, 'a') as log:
+    csvLog = csv.writer(log)
+    readLog = open(filePath, "r")
     while (True):
-        user_input = input("You: ")
-        if user_input == ":exit":
+        userInput = input("You: ")
+        if userInput == ":q":
             break
-        csvlog.writerow([datetime.now().strftime("%d-%m-%Y %H:%M:%S"), user_input])
+        csvlog.writerow([datetime.now().strftime("%d-%m-%Y %H:%M:%S"), userInput])
