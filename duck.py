@@ -1,26 +1,38 @@
-from datetime import datetime
+from datetime   import datetime
 import csv
-from os import path
-from random import randint
-from shutil import get_terminal_size
+from pathlib    import Path
+from os         import path
+from random     import randint
+from shutil     import get_terminal_size
 
-COL = get_terminal_size().columns
+COL = get_terminal_size ().columns
 
-with open("duck.txt", "r") as duck:
+# prints the duck on the screen
+with open ("duck.txt", "r") as duck:
     for line in duck:
-        catPixelRow = line.strip()
-        print(catPixelRow.center(COL))
+        duckPixelRow = line.strip ()
+        print (duckPixelRow.center(COL))
 
-filePath = "log.csv"
+filePath = Path ("log.csv")
+headers = ["time", "text"]
 
-with open(filePath, "a") as log:
-    csvLog = csv.writer(log)
-    with open(filePath, "r") as readLog:
-        if readLog.readline() == "":
-            csvLog.writerow(["time", "text"])
+# establish file headers
+if not path.exists (filePath):
+    filePath.touch ()
+    with open (filePath, "a") as logs:
+        writelog = csv.writer (logs)
+        writelog.writerow (["time", "text"])
+
+with open (filePath, "a") as logs:
+    writelog = csv.writer (logs)
+    print()
+
     while (True):
         userInput = input("You: ")
+        
+        # quit condition
         if userInput == ":q":
             break
-        csvLog.writerow([datetime.now().strftime("%d-%m-%Y %H:%M:%S"), userInput])
+        
+        writelog.writerow([datetime.now().strftime("%d-%m-%Y %H:%M:%S"), userInput])
         print("ddb:", "quack " * randint(1, 3))
